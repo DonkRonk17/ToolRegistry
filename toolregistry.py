@@ -1053,7 +1053,7 @@ class ToolRegistry:
 
 def format_tool_summary(tool: ToolMetadata) -> str:
     """Format a tool for display."""
-    quality_icon = "🟢" if tool.quality_score >= 80 else "🟡" if tool.quality_score >= 50 else "🔴"
+    quality_icon = "[OK]" if tool.quality_score >= 80 else "[!]" if tool.quality_score >= 50 else "[X]"
     
     lines = [
         f"{quality_icon} {tool.name} v{tool.version}",
@@ -1066,6 +1066,14 @@ def format_tool_summary(tool: ToolMetadata) -> str:
 
 def main():
     """CLI entry point."""
+    # Fix Windows console encoding for Unicode characters
+    import sys
+    if sys.platform == 'win32':
+        try:
+            sys.stdout.reconfigure(encoding='utf-8')
+        except:
+            pass  # If reconfigure fails, continue anyway
+    
     parser = argparse.ArgumentParser(
         description="ToolRegistry - Unified Tool Discovery for Team Brain",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1139,7 +1147,7 @@ GitHub: https://github.com/DonkRonk17/ToolRegistry
     if args.command == "scan":
         paths = [Path(args.path)] if args.path else None
         count = registry.scan(paths)
-        print(f"✓ Discovered {count} tools")
+        print(f"[OK] Discovered {count} tools")
         
     elif args.command == "list":
         tools = registry.list_all()
@@ -1156,7 +1164,7 @@ GitHub: https://github.com/DonkRonk17/ToolRegistry
             print("No tools found. Run 'toolregistry scan' first.")
             return
         
-        print(f"📦 Team Brain Tool Registry ({len(tools)} tools)")
+        print(f"[REGISTRY] Team Brain Tool Registry ({len(tools)} tools)")
         print("=" * 60)
         
         for tool in tools:
@@ -1206,16 +1214,16 @@ GitHub: https://github.com/DonkRonk17/ToolRegistry
         print()
         print("Quality Metrics:")
         print(f"  Score: {tool.quality_score}/100")
-        print(f"  README: {'✓' if tool.has_readme else '✗'} ({tool.readme_lines} lines)")
-        print(f"  Tests: {'✓' if tool.has_tests else '✗'} ({tool.test_count} tests)")
-        print(f"  Examples: {'✓' if tool.has_examples else '✗'}")
-        print(f"  Branding: {'✓' if tool.has_branding else '✗'}")
+        print(f"  README: {'[OK]' if tool.has_readme else '[X]'} ({tool.readme_lines} lines)")
+        print(f"  Tests: {'[OK]' if tool.has_tests else '[X]'} ({tool.test_count} tests)")
+        print(f"  Examples: {'[OK]' if tool.has_examples else '[X]'}")
+        print(f"  Branding: {'[OK]' if tool.has_branding else '[X]'}")
         print()
         print(f"Dependencies: {', '.join(tool.dependencies) if tool.dependencies else 'None (stdlib only)'}")
         print(f"Last Modified: {tool.last_modified.strftime('%Y-%m-%d %H:%M')}")
         
     elif args.command == "launch":
-        print(f"🚀 Launching {args.name}...")
+        print(f"[LAUNCH] Launching {args.name}...")
         returncode, stdout, stderr = registry.launch(args.name, args.args)
         
         if stdout:
@@ -1280,7 +1288,7 @@ GitHub: https://github.com/DonkRonk17/ToolRegistry
         if args.output:
             with open(args.output, 'w', encoding='utf-8') as f:
                 f.write(output)
-            print(f"✓ Exported to {args.output}")
+            print(f"[OK] Exported to {args.output}")
         else:
             print(output)
         
