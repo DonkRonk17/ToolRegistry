@@ -662,7 +662,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/d4206c45-a65a-4370-9e80-a54a0b021dd4" />
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/2e8507aa-9736-4662-a62a-c584bd68545c" />
 
 
 ## 🙏 Credits
