@@ -1,0 +1,289 @@
+================================================================================
+                         TOOLREGISTRY CHEAT SHEET
+                    Unified Tool Discovery for Team Brain
+================================================================================
+
+QUICK START
+-----------
+1. Install: pip install -e . (or use directly with python toolregistry.py)
+2. First run: toolregistry scan
+3. Basic usage: toolregistry [command] [options]
+
+================================================================================
+COMMON COMMANDS
+--------------------------------------------------------------------------------
+
+Discover Tools:
+  toolregistry scan                    # Scan AutoProjects for tools
+  toolregistry scan --path /custom     # Scan custom directory
+
+List Tools:
+  toolregistry list                    # List all tools
+  toolregistry list --compact          # Compact one-line format
+  toolregistry list --category synapse # Filter by category
+  toolregistry list --quality 80       # Filter by min quality score
+
+Search Tools:
+  toolregistry search synapse          # Search by name/description
+  toolregistry search monitor --category monitoring  # With category filter
+
+Get Tool Info:
+  toolregistry info SynapseLink        # Detailed info on specific tool
+  toolregistry info AgentHealth        # Shows quality breakdown
+
+Launch Tools:
+  toolregistry launch SynapseLink --help          # Launch with args
+  toolregistry launch AgentHealth report          # Run tool command
+
+Health Report:
+  toolregistry health                  # Full ecosystem health report
+
+Categories:
+  toolregistry categories              # List all categories with counts
+
+Export:
+  toolregistry export --format json    # Export to JSON
+  toolregistry export --format md      # Export to Markdown
+  toolregistry export -f md -o CATALOG.md  # Save to file
+
+Recommendations:
+  toolregistry recommend "send message"  # Get tool suggestions
+
+Statistics:
+  toolregistry stats                   # Usage statistics
+  toolregistry stats --tool SynapseLink  # Stats for specific tool
+
+================================================================================
+CLI FLAGS & OPTIONS
+--------------------------------------------------------------------------------
+
+Global Options:
+  -h, --help         Show help message
+  --version          Show version
+
+list Options:
+  --category, -c     Filter by category
+  --quality, -q      Minimum quality score (0-100)
+  --compact          One-line output
+
+search Options:
+  --category, -c     Filter by category
+
+export Options:
+  --format, -f       Format: json, markdown, md
+  --output, -o       Output file path
+
+================================================================================
+PYTHON API
+--------------------------------------------------------------------------------
+
+Import:
+  from toolregistry import ToolRegistry
+  from toolregistry import quick_scan, quick_search, quick_info, quick_launch
+
+Create Instance:
+  registry = ToolRegistry()
+  
+  # With custom paths
+  registry = ToolRegistry(
+      config_path=Path("~/.myconfig"),
+      db_path=Path("~/.mydb/registry.db"),
+      scan_paths=[Path("/my/tools")]
+  )
+
+Core Methods:
+  registry.scan()                      # Discover tools
+  registry.list_all()                  # Get all tools
+  registry.get("ToolName")             # Get specific tool
+  registry.search("query")             # Search tools
+  registry.search("q", category="c")   # Search with filter
+  registry.by_category("synapse")      # Get tools by category
+  registry.categories()                # Get category counts
+  registry.launch("Tool", ["args"])    # Launch a tool
+  registry.ecosystem_health()          # Get health report
+  registry.export("json")              # Export to format
+  registry.recommend("task desc")      # Get recommendations
+  registry.get_usage_stats()           # Get usage stats
+
+Quick Functions:
+  quick_scan()                         # Scan and return count
+  quick_search("query")                # Search and return list
+  quick_info("ToolName")               # Get tool dict
+  quick_launch("Tool", ["args"])       # Launch and return code
+
+ToolMetadata Properties:
+  tool.name                            # Tool name
+  tool.path                            # Path object
+  tool.description                     # Description string
+  tool.version                         # Version string
+  tool.author                          # Author string
+  tool.categories                      # List of categories
+  tool.capabilities                    # List of capabilities
+  tool.cli_commands                    # List of CLI commands
+  tool.python_api                      # Import statement
+  tool.github_url                      # GitHub URL
+  tool.has_readme                      # Boolean
+  tool.has_tests                       # Boolean
+  tool.has_examples                    # Boolean
+  tool.has_branding                    # Boolean
+  tool.readme_lines                    # Int
+  tool.test_count                      # Int
+  tool.quality_score                   # Int (0-100)
+  tool.last_modified                   # datetime
+
+================================================================================
+QUALITY SCORE BREAKDOWN
+--------------------------------------------------------------------------------
+
+Component               Points
+---------------------------- 
+README exists           10
+README 100+ lines       +5
+README 200+ lines       +5
+README 400+ lines       +10
+Tests exist             10
+5+ tests                +5
+10+ tests               +5
+15+ tests               +5
+EXAMPLES.md exists      15
+branding/ exists        10
+Description exists      10
+Base points             10
+---------------------------- 
+Maximum                 100
+
+Quality Icons:
+  🟢 = 80-100 (High Quality)
+  🟡 = 50-79  (Acceptable)
+  🔴 = 0-49   (Needs Work)
+
+================================================================================
+INTEGRATION WITH OTHER TOOLS
+--------------------------------------------------------------------------------
+
+With SynapseLink:
+  from toolregistry import ToolRegistry
+  from synapselink import quick_send
+  
+  registry = ToolRegistry()
+  health = registry.ecosystem_health()
+  quick_send("TEAM", "Tool Report", f"Total: {health['total_tools']}")
+
+With TaskQueuePro:
+  from toolregistry import ToolRegistry
+  from taskqueuepro import TaskQueuePro
+  
+  registry = ToolRegistry()
+  queue = TaskQueuePro()
+  
+  # Create tasks for low-quality tools
+  health = registry.ecosystem_health()
+  for tool in health['needs_work_list']:
+      queue.create_task(f"Improve {tool.name}", agent="ATLAS", priority=3)
+
+With AgentHealth:
+  from toolregistry import ToolRegistry
+  from agenthealth import AgentHealth
+  
+  registry = ToolRegistry()
+  health_monitor = AgentHealth()
+  
+  # Track tool usage with health monitoring
+  health_monitor.start_session("FORGE")
+  registry.launch("SynapseLink", ["send", "--to", "TEAM"])
+  health_monitor.end_session("FORGE")
+
+================================================================================
+CATEGORY KEYWORDS
+--------------------------------------------------------------------------------
+
+synapse:     synapse, message, communication, inbox, notification
+monitoring:  health, watch, monitor, tracker, stats, analytics
+task:        task, queue, todo, flow, schedule, assign
+memory:      memory, bridge, context, compress, cache
+config:      config, setting, env, environment
+session:     session, replay, record, collab
+security:    secure, vault, encrypt, password, auth
+file:        file, backup, rename, deduplicate, clip
+network:     net, port, scan, ssh, rest, api
+dev:         git, regex, log, data, convert, json
+productivity: time, focus, notes, window, screen
+routing:     router, route, dispatch, assign
+
+================================================================================
+CONFIGURATION
+--------------------------------------------------------------------------------
+
+Config File Location:
+  ~/.toolregistryrc  (JSON format)
+
+Default Config:
+  {
+    "version": "1.0.0",
+    "scan_paths": ["C:\\Users\\logan\\OneDrive\\Documents\\AutoProjects"],
+    "auto_scan_on_startup": false,
+    "track_usage": true,
+    "github_base_url": "https://github.com/DonkRonk17"
+  }
+
+Database Location:
+  ~/.toolregistry/registry.db
+
+================================================================================
+TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+"No tools found"
+  → Run 'toolregistry scan' first
+  → Check scan_paths in config
+  → Ensure tools have .py files
+
+Tool not appearing after scan
+  → Tool needs toolname.py or main.py
+  → Can't be in hidden directory (. or _)
+  → Try scanning specific path
+
+Wrong quality score
+  → Check README.md exists
+  → Check test_*.py files exist
+  → Check EXAMPLES.md exists
+  → Check branding/ folder exists
+
+Reset database
+  → Delete ~/.toolregistry/ folder
+  → Run 'toolregistry scan' again
+
+================================================================================
+COMMON WORKFLOWS
+--------------------------------------------------------------------------------
+
+Daily Discovery:
+  toolregistry scan && toolregistry health
+
+Finding Right Tool:
+  toolregistry recommend "[task description]"
+  toolregistry search "[keyword]"
+  toolregistry info [ToolName]
+
+Quality Audit:
+  toolregistry health
+  toolregistry list --quality 0 | findstr "🔴"
+  toolregistry info [LowQualityTool]
+
+Documentation:
+  toolregistry export --format md --output TOOL_CATALOG.md
+
+================================================================================
+RESOURCES
+--------------------------------------------------------------------------------
+
+Documentation:   AutoProjects/ToolRegistry/README.md
+Examples:        AutoProjects/ToolRegistry/EXAMPLES.md
+Integration:     AutoProjects/ToolRegistry/INTEGRATION_PLAN.md
+Quick Starts:    AutoProjects/ToolRegistry/QUICK_START_GUIDES.md
+GitHub:          https://github.com/DonkRonk17/ToolRegistry
+Issues:          https://github.com/DonkRonk17/ToolRegistry/issues
+
+================================================================================
+Questions? Check the docs or post in Team Brain Synapse!
+================================================================================

@@ -1,0 +1,18 @@
+# ToolRegistry - Dependencies
+# ===========================
+# This tool uses ONLY Python standard library.
+# No external dependencies required!
+#
+# Stdlib modules used:
+# - os, sys, json - Basic operations
+# - sqlite3 - Database storage
+# - pathlib - Cross-platform paths
+# - argparse - CLI parsing
+# - subprocess - Tool launching
+# - datetime - Timestamps
+# - re - Regex for parsing
+# - hashlib - For unique IDs
+# - collections - defaultdict
+# - typing - Type hints
+#
+# Zero dependencies = Easy deployment!
