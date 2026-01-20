@@ -1,3 +1,5 @@
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8fabdef4-84dc-4e3d-a7de-eea84bbb51c9" />
+
 # 🗂️ ToolRegistry
 
 **The Command Center for Team Brain's 35+ Tool Ecosystem**
@@ -659,6 +661,9 @@ toolregistry scan
 MIT License - see [LICENSE](LICENSE) for details.
 
 ---
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/d4206c45-a65a-4370-9e80-a54a0b021dd4" />
+
 
 ## 🙏 Credits
 
