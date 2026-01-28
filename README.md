@@ -2,7 +2,7 @@
 
 # 🗂️ ToolRegistry
 
-**The Command Center for Team Brain's 35+ Tool Ecosystem**
+**The Command Center for Team Brain's Tool Ecosystem**
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Python: 3.8+](https://img.shields.io/badge/Python-3.8+-green.svg)
